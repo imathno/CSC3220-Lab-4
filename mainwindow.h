@@ -1,9 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "httpmanager.h"
+
 #include <QMainWindow>
 #include <QTimer>
 #include <QTime>
+#include <QTimeZone>
+#include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,9 +23,12 @@ public:
 
 private slots:
     void setCurrentTime();
+    void processIcon(QPixmap*);
+    void processWeatherJson(QJsonObject*);
 
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
+    HTTPManager *httpManager;
 };
 #endif // MAINWINDOW_H
