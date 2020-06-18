@@ -25,6 +25,10 @@ private slots:
     void setCurrentTime();
     void processIcon(QPixmap*);
     void processWeatherJson(QJsonObject*);
+    void processFrameJson(QJsonObject*);
+    void processFrame(QPixmap*);
+
+    void on_next_image_clicked();
 
 private:
     Ui::MainWindow *ui;

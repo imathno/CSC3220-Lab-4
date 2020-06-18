@@ -29,7 +29,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(httpManager, SIGNAL(WeatherJsonReady(QJsonObject *)),
                 this, SLOT(processWeatherJson(QJsonObject *)));
 
+    connect(httpManager, SIGNAL(FrameJsonReady(QJsonObject *)),
+            this, SLOT(processFrameJson(QJsonObject *)));
+
+    connect(httpManager, SIGNAL(FrameReady(QPixmap *)),
+             this, SLOT(processFrame(QPixmap *)));
+
     httpManager->sendWeatherRequest(QString("98118"));
+
+    httpManager->sendFrameRequest();
 }
 
 MainWindow::~MainWindow()
@@ -69,4 +77,19 @@ void MainWindow::processWeatherJson(QJsonObject *json)
     httpManager->sendIconRequest(icon);
 
     ui->weather_label->setText("Current Weather: " + weather + ", temp: " + QString::number(temp));
+}
+
+void MainWindow::processFrameJson(QJsonObject *json)
+{
+    httpManager->sendFrameImageRequest(json->value("message").toString());
+}
+
+void MainWindow::processFrame(QPixmap *image)
+{
+    ui->photo_frame_label->setPixmap(*image);
+}
+
+void MainWindow::on_next_image_clicked()
+{
+    httpManager->sendFrameRequest();
 }
